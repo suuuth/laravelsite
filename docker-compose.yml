@@ -1,0 +1,53 @@
+version: '3.7'
+services:
+    php:
+        build:
+            context: ./docker/php
+            dockerfile: dev.Dockerfile
+            target: dev
+        volumes:
+            - './:/var/www/html'
+        networks:
+            - traefik
+        depends_on:
+            - mariadb
+    nginx:
+        build:
+            context: ./docker/nginx
+            dockerfile: Dockerfile
+        image: nginx:latest
+        volumes:
+            - './:/var/www/html'
+            - ./docker/nginx/config/default.conf:/etc/nginx/conf.d/default.conf
+            - ./docker/nginx/config/nginx.conf:/etc/nginx/nginx.conf
+        networks:
+            - traefik
+    mariadb:
+        image: 'mariadb:latest'
+        ports:
+            - '3306:3306'
+        environment:
+            MYSQL_ROOT_USERNAME: '${DB_USERNAME}'
+            MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
+        volumes:
+            - '/etc/localtime:/etc/localtime:ro'
+            - './docker/mariadb:/var/lib/mysql:rw'
+        networks:
+            - traefik
+    webpack:
+        build:
+            context: ./docker/webpack
+            dockerfile: development.Dockerfile
+        user: '1000:1000'
+        volumes:
+            - './public/:/public'
+            - './webpack/:/webpack'
+        labels:
+            - traefik.backend=laravel-example.com-webpack
+            - traefik.expose=false
+        networks:
+            - traefik
+networks:
+    traefik:
+        external: true
+        name: traefik
