@@ -18,7 +18,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('/login', function (Request $request) {
-    dd('here');
+Route::middleware('')->post('/login', function (Request $request) {
+    dd(['here', $request]);
     return true;
 });
