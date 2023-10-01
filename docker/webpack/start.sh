@@ -1,8 +1,8 @@
 #!/bin/bash
 echo "running"
-until cd /resources && npm install
+until cd /var/www/html && npm install
 do
     echo "Retrying npm install" >> log.txt
 done
-cd /resources && npm run watch
+cd /var/www/html && npm run watch
 tail -f /dev/null

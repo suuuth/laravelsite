@@ -48,10 +48,9 @@ services:
             dockerfile: development.Dockerfile
         user: '1000:1000'
         volumes:
-            - './public/:/public'
-            - './resources/:/resources'
+            - './:/var/www/html'
         labels:
-            - traefik.backend=laravel-example.com-webpack
+            - traefik.backend=laravel-webpack
             - traefik.expose=false
         networks:
             - traefik
