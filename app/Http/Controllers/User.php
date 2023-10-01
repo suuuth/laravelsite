@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use App\Services\User as UserService;
 
 class User extends Controller
 {
@@ -14,10 +15,14 @@ class User extends Controller
      */
     public function postRegister(Request $request): Response
     {
-        dd($request);
+        UserService::register(
+            $request->get('email'),
+            $request->get('username'),
+            $request->get('password')
+        );
+
         return new Response([
-            'message' => 'ligma',
-            'data' => 'register'
+            'message' => 'Success!'
         ]);
     }
 
