@@ -8,8 +8,15 @@ class User
 {
     public static function register(string $email, string $username, string $password): bool
     {
-        $user = UserModel::create(
-
+        return UserModel::create(
+            $email,
+            $username,
+            bcrypt($password)
         );
+    }
+
+    public static function login(string $email, string $password): bool
+    {
+        return false;
     }
 }
