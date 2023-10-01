@@ -6,6 +6,7 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
 const exports =  {
+    entry: './resources/js/app.js',
     output: {
         filename: '[name].bundle.js',
         path: path.resolve(__dirname, 'resources/js/dist'),
@@ -21,7 +22,6 @@ const exports =  {
     devServer: {
         allowedHosts: 'all',
     },
-    entry: './resources/js/app.js',
     module: {
         rules: [
             {

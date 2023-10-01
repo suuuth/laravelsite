@@ -7,11 +7,29 @@ use Illuminate\Http\Response;
 
 class User extends Controller
 {
-    public function login(Request $request): Response
+
+    /**
+     * @param Request $request
+     * @return Response
+     */
+    public function postRegister(Request $request): Response
+    {
+        dd($request);
+        return new Response([
+            'message' => 'ligma',
+            'data' => 'register'
+        ]);
+    }
+
+    /**
+     * @param Request $request
+     * @return Response
+     */
+    public function postLogin(Request $request): Response
     {
         return new Response([
-            'message' => 'ligma!',
-            'data' => $request
+            'message' => 'ligma',
+            'data' => 'login'
         ]);
     }
 }

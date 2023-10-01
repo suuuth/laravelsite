@@ -1,5 +1,5 @@
 <template>
-    <h2 class="mt-6 text-xl font-semibold text-gray-900 dark:text-white">Login</h2>
+    <h2 class="mt-6 text-xl font-semibold text-gray-900 dark:text-white">Register</h2>
     <form @submit.prevent="submit( $e )">
         <div>
             <label class="text-gray-900 dark:text-white" for="email">E-mail</label>
@@ -18,7 +18,7 @@
 <script>
 
 export default  {
-    name: 'Login',
+    name: 'Register',
 
     data() {
         return {
@@ -28,8 +28,10 @@ export default  {
     },
 
     methods: {
-        submit () {
-            axios.post(routes.POST_LOGIN, this.data).then(response => {
+        submit (event) {
+            console.log(event)
+
+            axios.post(routes.POST_REGISTER, this.data).then(response => {
                 console.log(response)
             }).catch(error => {
                 console.error(error)

@@ -14,7 +14,8 @@ function createRoute(name, route) {
     routes[name] = window.location.origin + '/' + route
 }
 
-createRoute('POST_LOGIN', 'api/login')
+createRoute('POST_LOGIN', 'api/user/login')
+createRoute('POST_REGISTER', 'api/user/register')
 
 window.routes = routes
 
