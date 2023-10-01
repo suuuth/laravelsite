@@ -9,6 +9,15 @@ window.axios = axios;
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
+var routes = {}
+function createRoute(name, route) {
+    routes[name] = window.location.origin + '/' + route
+}
+
+createRoute('POST_LOGIN', 'api/login')
+
+window.routes = routes
+
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
  * for events that are broadcast by Laravel. Echo and event broadcasting

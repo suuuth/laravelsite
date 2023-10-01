@@ -1,4 +1,4 @@
 const mix = require('laravel-mix');
-const config = require('./webpack.config');
+const config = require('./webpack-config.js');
 
-mix.webpackConfig(config);
+mix.webpackConfig(config).vue();

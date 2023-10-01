@@ -1,8 +1,8 @@
-import './bootstrap.js';
-// import { createApp } from 'vue';
+import './bootstrap.js'
+import { createApp } from 'vue'
 
-function helloWorld() {
-    console.log('hello world!!! Tesst');
-}
+import HelloWorld from './components/HelloWorld.vue'
+import Login from './components/Login.vue'
 
-helloWorld();
+const HelloWorldVue = createApp(HelloWorld).mount('#HelloWorld')
+const LoginVue = createApp(Login).mount('#Login')

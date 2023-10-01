@@ -1,8 +1,9 @@
 import path from 'path'
-import { fileURLToPath } from 'url';
+import { fileURLToPath } from 'url'
+import { VueLoaderPlugin } from "vue-loader"
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 
 const exports =  {
     output: {
@@ -20,7 +21,18 @@ const exports =  {
     devServer: {
         allowedHosts: 'all',
     },
-    entry: './resources/js/app.js'
+    entry: './resources/js/app.js',
+    module: {
+        rules: [
+            {
+                test: /\.vue$/,
+                loader: 'vue-loader'
+            }
+        ]
+    },
+    plugins: [
+        new VueLoaderPlugin()
+    ]
 }
 
 export default exports;
