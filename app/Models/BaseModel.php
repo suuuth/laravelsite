@@ -6,34 +6,45 @@ use Illuminate\Support\Facades\DB;
 
 class BaseModel
 {
-    public static function create(mixed $class): bool
+    protected function __construct(array $props)
     {
-        $classData = [];
-        forEach ($class as $prop => $value) {
-            $classData[$prop] = $value;
+        $this->setPropertyValues($props);
+    }
+
+    private function setPropertyValues(array $props): void
+    {
+        foreach ($props as $property => $value) {
+            if (method_exists($this, 'set'.$property)) {
+                $this->{'set'.$property}($value);
+            }
         }
-
-        DB::insert(sprintf(
-            'INSERT INTO TABLE %s VALUES (%s)',
-            'test',
-            implode(',', $classData)
-        ));
-
-        return true;
     }
 
-    public static function read(): bool
+    /**
+     * @param $params
+     * @return static
+     */
+    public static function instance($params): static
     {
-        return true;
+        return new static($params);
     }
 
-    public static function update(): bool
-    {
-        return true;
-    }
-
-    public static function delete(): bool
-    {
-        return true;
-    }
+    /**
+     * @param int $id
+     * @return static
+     */
+//    public static function loadById(int $id): static
+//    {
+//        $query = sprintf(
+//            'SELECT * FROM %s WHERE id = :id',
+//            static::table
+//        );
+//
+//        return static::instance(DB::select(
+//            'SELECT * FROM '.get_class(static).' WHERE id = :id',
+//        [
+//            'id' => $id
+//        ]
+//        ));
+//    }
 }

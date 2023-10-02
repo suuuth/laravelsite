@@ -33,10 +33,12 @@ services:
     laravel-mariadb:
         image: 'mariadb:latest'
         ports:
-            - '3306:3306'
+            - '1234:3306'
         environment:
-            MYSQL_ROOT_USERNAME: '${DB_USERNAME}'
-            MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
+            MARIADB_DATABASE: ${DB_DATABASE}
+            MARIADB_ROOT_PASSWORD: password
+            MARIADB_USERNAME: ${DB_USERNAME}
+            MARIADB_PASSWORD: ${DB_PASSWORD}
         volumes:
             - '/etc/localtime:/etc/localtime:ro'
             - './docker/mariadb:/var/lib/mysql:rw'
