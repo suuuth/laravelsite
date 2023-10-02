@@ -23,6 +23,11 @@ class User
 
     public static function login(string $email, string $password): bool
     {
-        return false;
+        $user = UserModel::loadOneBy(['email' => $email]);
+        if (!$user) {
+            return false;
+        }
+
+        return $user;
     }
 }

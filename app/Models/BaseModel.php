@@ -29,6 +29,11 @@ class BaseModel
         return new static($params);
     }
 
+    public static function loadOneBy(array $data): static
+    {
+        return static::instance(DB::select('SELECT * FROM '.get_class(static).' WHERE '.array_key($data).' = '.$data[]))
+    }
+
     /**
      * @param int $id
      * @return static

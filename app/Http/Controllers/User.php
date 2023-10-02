@@ -39,6 +39,16 @@ class User extends Controller
      */
     public function postLogin(Request $request): Response
     {
+        // input validation happens in controller
+        if (!filter_var($request->get('email'), FILTER_VALIDATE_EMAIL)) {
+            throw new BadRequestHttpException('Invalid Email');
+        }
+
+        UserService::login(
+            $request->get('email'),
+            $request->get('password')
+        );
+
         return new Response([
             'message' => 'ligma',
             'data' => 'login'
