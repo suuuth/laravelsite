@@ -61,6 +61,8 @@ class BaseModel
             ]
         );
 
+        die(var_dump(new \DateTime($row->created)));
+
         return static::instance($row);
     }
 
