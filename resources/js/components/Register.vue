@@ -4,11 +4,11 @@
           class="mt-6 flex grid grid-cols-1 md:grid-cols-1 gap-6 lg:gap-8"
     >
         <div>
-            <label class="text-gray-900 dark:text-white" for="data.email">E-mail</label>
+            <label class="text-gray-900 dark:text-white" for="email">E-mail</label>
             <input name="email" type="email" v-model="data.email">
         </div>
         <div>
-            <label class="text-gray-900 dark:text-white" for="data.email">Username</label>
+            <label class="text-gray-900 dark:text-white" for="username">Username</label>
             <input name="username" type="text" v-model="data.username">
         </div>
         <div>

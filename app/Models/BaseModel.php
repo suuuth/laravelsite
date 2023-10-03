@@ -2,36 +2,66 @@
 
 namespace App\Models;
 
+use Exception;
 use Illuminate\Support\Facades\DB;
 
 class BaseModel
 {
-    protected function __construct(array $props)
+    protected function __construct($instance)
     {
-        $this->setPropertyValues($props);
+        $this->instance = $instance;
     }
 
-    private function setPropertyValues(array $props): void
-    {
-        foreach ($props as $property => $value) {
-            if (method_exists($this, 'set'.$property)) {
-                $this->{'set'.$property}($value);
-            }
-        }
-    }
+//    private function setPropertyValues(array $props): void
+//    {
+//        foreach ($props as $property => $value) {
+//            if (method_exists($this, 'set'.$property)) {
+//                $this->{'set'.$property}($value);
+//            }
+//        }
+//    }
 
     /**
      * @param $params
-     * @return static
      */
-    public static function instance($params): static
+    public static function instance($params)
     {
-        return new static($params);
+        $entityInstance = new (static::returnType)();
+
+        foreach ($params as $prop => $value) {
+            if (!method_exists($entityInstance, sprintf('set%s', ucfirst($prop)))) {
+                continue;
+            }
+
+            $entityInstance->{sprintf('set%s', ucfirst($prop))}($value);
+        }
+
+        return $entityInstance;
     }
 
-    public static function loadOneBy(array $data): static
+    public function getInstance()
     {
-        return static::instance(DB::select('SELECT * FROM '.get_class(static).' WHERE '.array_key($data).' = '.$data[]))
+        return $this->instance;
+    }
+
+    public static function loadOneBy(string $column, int|string|bool $value)
+    {
+        if (!method_exists(static::returnType, 'set'.ucfirst($column))) {
+            throw new Exception(sprintf('Bad column %s', $column));
+        }
+
+        $row = DB::selectOne(
+            sprintf(
+                'SELECT * FROM %s WHERE %s = :%s',
+                static::table,
+                $column,
+                $column
+            ), [
+                $column => $value
+            ]
+        );
+
+        return static::instance($row);
     }
 
     /**

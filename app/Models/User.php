@@ -8,9 +8,10 @@ use Illuminate\Support\Facades\DB;
 
 class User extends BaseModel
 {
-    protected UserEntity $userInstance;
+    protected UserEntity $instance;
 
-    protected string $table = 'Users';
+    const table = 'Users';
+    const returnType = UserEntity::class;
 
 
     /**
@@ -27,25 +28,6 @@ class User extends BaseModel
             $password,
             new DateTime
         ]);
-    }
-
-
-    /**
-     * @return UserEntity
-     */
-    public function getUserInstance(): UserEntity
-    {
-        return $this->userInstance;
-    }
-
-    /**
-     * @param UserEntity $userInstance
-     * @return User
-     */
-    public function setUserInstance(UserEntity $userInstance): User
-    {
-        $this->userInstance = $userInstance;
-        return $this;
     }
 
     /**

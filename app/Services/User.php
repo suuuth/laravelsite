@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\User as UserModel;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class User
 {
@@ -17,15 +18,25 @@ class User
         return UserModel::create(
             $email,
             $username,
-            bcrypt($password) // modifying input as needed for upcoming db call
+            password_hash($password, PASSWORD_BCRYPT) // modifying input as needed for upcoming db call
         );
     }
 
-    public static function login(string $email, string $password): bool
+    /**
+     * @param string $email
+     * @param string $password
+     * @return UserModel
+     */
+    public static function login(string $email, string $password): UserModel
     {
-        $user = UserModel::loadOneBy(['email' => $email]);
+        dd(UserModel::loadOneBy('email', $email));
+        $user = UserModel::loadOneBy('email', $email);
         if (!$user) {
-            return false;
+            throw new BadRequestHttpException('Login failed!');
+        }
+
+        if (!password_verify($password, $user->getInstance()->getPassword())) {
+            throw new BadRequestHttpException('Login failed!');
         }
 
         return $user;
