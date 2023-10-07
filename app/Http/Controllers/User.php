@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Services\User as UserService;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use App\Entities\User as UserEntity;
 
 class User extends Controller
 {
@@ -35,23 +37,22 @@ class User extends Controller
 
     /**
      * @param Request $request
-     * @return Response
+     * @return RedirectResponse
      */
-    public function postLogin(Request $request): Response
+    public function postLogin(Request $request): RedirectResponse
     {
         // input validation happens in controller
-        if (!filter_var($request->get('email'), FILTER_VALIDATE_EMAIL)) {
-            throw new BadRequestHttpException('Invalid Email');
+        $request->validate([
+            'email' => ['required', 'email'],
+            'password' => ['required']
+        ]);
+
+        if (!(UserService::login($request->email, $request->password) instanceof UserEntity)) {
+            throw new BadRequestHttpException('Invalid Credentials');
         }
 
-        UserService::login(
-            $request->get('email'),
-            $request->get('password')
-        );
+        $request->session()->regenerate();
 
-        return new Response([
-            'message' => 'ligma',
-            'data' => 'login'
-        ]);
+        return redirect()->intended('dashboard');
     }
 }

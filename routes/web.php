@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\User;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -28,3 +29,9 @@ Route::get('/register', function () {
 Route::get('/status', function () {
     return json_encode(['dbStatus' => DB::connection()]);
 });
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
+});
+
+Route::post('/user/register', 'User@postRegister');

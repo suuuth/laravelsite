@@ -2,16 +2,21 @@
 
 namespace App\Entities;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
 use DateTime;
+use App\Libraries\Traits\PropertyCasts;
+use App\Entities\AbstractEntity;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use PropertyCasts, AbstractEntity;
+
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'Users';
 
     /**
      * The attributes that are mass assignable.
@@ -19,9 +24,6 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
-        'email',
-        'password',
     ];
 
     /**
@@ -40,8 +42,10 @@ class User extends Authenticatable
      * @var array<string, string>
      */
     protected $casts = [
-//        'email_verified_at' => 'datetime',
-        'password' => 'hashed',
+        // 'email_verified_at' => 'datetime',
+        // 'password' => 'hashed',
+        'created' => 'DateTime',
+        'updated' => '?DateTime'
     ];
 
     protected int $id;
@@ -103,6 +107,17 @@ class User extends Authenticatable
     {
         $this->username = $username;
         return $this;
+    }
+
+    /**
+     * Override to make Auth::attempt work
+     *
+     * @return string
+     */
+    public function getAuthPassword()
+    {
+        $this->setPropertyValues($this->attributes);
+        return $this->getPassword();
     }
 
     /**

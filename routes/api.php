@@ -21,6 +21,4 @@ use App\Http\Controllers\User;
 Route::controller(User::class)->group(function () {
 
     Route::post('/user/login', 'postLogin');
-
-    Route::post('/user/register', 'postRegister');
 });

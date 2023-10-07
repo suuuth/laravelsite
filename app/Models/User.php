@@ -29,22 +29,4 @@ class User extends BaseModel
             new DateTime
         ]);
     }
-
-    /**
-     * @return string
-     */
-    public function getTable(): string
-    {
-        return $this->table;
-    }
-
-    /**
-     * @param string $table
-     * @return User
-     */
-    public function setTable(string $table): User
-    {
-        $this->table = $table;
-        return $this;
-    }
 }
